@@ -30,6 +30,7 @@ GLfloat topConeHeight = 2.3;
 GLfloat topConeTopRad = 0.2;
 GLfloat topConeBottomRad = 1;
 GLfloat topFinHeight = 3.5;
+GLfloat bottomFinHeight = 4;
 
 void init() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -185,6 +186,103 @@ void drawStarshipTopFins() {
 	
 }
 
+void drawStarshipBottomFins() {
+	
+	//large face
+	glPushMatrix();
+	glTranslatef(0, superheavyHeight, -0.15);
+	glBegin(GL_POLYGON);
+
+	glColor3f(1, 1, 1);
+	glVertex3f(0, 0, 0);
+	glVertex3f(2, 0, 0);
+	glVertex3f(2, 1.5, 0);
+	glVertex3f(1, bottomFinHeight, 0);
+	glVertex3f(-1, bottomFinHeight, 0);
+	glVertex3f(-2, 1.5, 0);
+	glVertex3f(-2, 0, 0);
+	glVertex3f(0, 0, 0);
+	glEnd();
+	glPopMatrix();
+
+	//large face
+	glPushMatrix();
+	glTranslatef(0, superheavyHeight, 0.15);
+	glBegin(GL_POLYGON);
+
+	glColor3f(1, 1, 1);
+	glVertex3f(0, 0, 0);
+	glVertex3f(2, 0, 0);
+	glVertex3f(2, 1.5, 0);
+	glVertex3f(1, bottomFinHeight, 0);
+	glVertex3f(-1, bottomFinHeight, 0);
+	glVertex3f(-2, 1.5, 0);
+	glVertex3f(-2, 0, 0);
+	glVertex3f(0, 0, 0);
+	glEnd();
+
+	glPopMatrix();
+
+	//rectangular sides
+	glPushMatrix();
+	glTranslatef(0, superheavyHeight, 0);
+	
+	//bottom
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex3f(2, 0, 0.15);
+	glVertex3f(-2, 0, 0.15);
+	glVertex3f(-2, 0, -0.15);
+	glVertex3f(2, 0, -0.15);
+	glVertex3f(2, 0, 0.15);
+	glEnd();
+
+	//side
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex3f(2, 0, 0.15);
+	glVertex3f(2, 0, -0.15);
+	glVertex3f(2, 1.5, -0.15);
+	glVertex3f(2, 1.5, 0.15);
+	glVertex3f(2, 0, 0.15);
+	glEnd();
+
+	//side
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex3f(-2, 0, 0.15);
+	glVertex3f(-2, 0, -0.15);
+	glVertex3f(-2, 1.5, -0.15);
+	glVertex3f(-2, 1.5, 0.15);
+	glVertex3f(-2, 0, 0.15);
+	glEnd();
+
+	//side slant
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex3f(-2, 1.5, -0.15);
+	glVertex3f(-2, 1.5, 0.15);
+	glVertex3f(-1, bottomFinHeight, 0.15);
+	glVertex3f(-1, bottomFinHeight, -0.15);
+	glVertex3f(-2, 1.5, -0.15);
+	glEnd();
+
+	//side slant
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex3f(2, 1.5, -0.15);
+	glVertex3f(2, 1.5, 0.15);
+	glVertex3f(1, bottomFinHeight, 0.15);
+	glVertex3f(1, bottomFinHeight, -0.15);
+	glVertex3f(2, 1.5, -0.15);
+	glEnd();
+
+	glPopMatrix();
+
+
+}
+
+
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
@@ -208,6 +306,7 @@ void display() {
 	drawSuperheavy();
 	drawTopCone();
 	drawStarshipTopFins();
+	drawStarshipBottomFins();
 	glPopMatrix();
 	glutSwapBuffers();
 }
