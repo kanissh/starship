@@ -21,18 +21,20 @@ bool showAxes = true;
 bool showGrid = true;
 
 
-GLfloat starshipHeight = 4.2;
-GLfloat superheavyHeight = 7;
+GLfloat starshipHeight = 8.3;
+GLfloat superheavyHeight = 15;
+GLfloat rocketRadius = 1;
 GLUquadricObj* qobj;
 
-GLfloat topConeHeight = 0.8;
+GLfloat topConeHeight = 2.3;
 GLfloat topConeTopRad = 0.2;
 GLfloat topConeBottomRad = 1;
+GLfloat topFinHeight = 3.5;
 
 void init() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	qobj = gluNewQuadric();
 	gluQuadricDrawStyle(qobj, GLU_FILL);
 	gluQuadricNormals(qobj, GLU_SMOOTH);
@@ -129,7 +131,7 @@ void drawStarship() {
 	glPushMatrix();
 	glRotatef(90,0,0,1);
 	glTranslatef(superheavyHeight,0,0);
-	drawCylinder(1,starshipHeight, 1,0,1);
+	drawCylinder(rocketRadius,starshipHeight, 1,0,1);
 	glPopMatrix();
 }
 
@@ -138,7 +140,7 @@ void drawStarship() {
 void drawSuperheavy() {
 	glPushMatrix();
 	glRotatef(90, 0, 0, 1);
-	drawCylinder(1, superheavyHeight,1,1,1);
+	drawCylinder(rocketRadius, superheavyHeight,1,1,1);
 	glPopMatrix();
 }
  
@@ -146,25 +148,42 @@ void drawSuperheavy() {
 
 
 void drawTopCone() {
-	/*glPushMatrix();
+glPushMatrix();
 	glColor3f(1,1,1);
 	glTranslatef(0,starshipHeight+superheavyHeight,0);
 	glRotatef(-90, 1, 0, 0);
 	gluCylinder(qobj, topConeBottomRad, topConeTopRad, topConeHeight, 50, 50);
-	glPopMatrix();*/
-	GLdouble eqn[4] = {1,0,0,0};
+	glPopMatrix();
+	
 
 	glPushMatrix();
-	glEnable(GL_CLIP_PLANE0);
-	//glRotatef(90, 0, 0, 1);
-	glClipPlane(GL_CLIP_PLANE0, eqn);
+	glTranslatef(0, starshipHeight + superheavyHeight + topConeHeight -0.07, 0);
+	glutSolidSphere(topConeTopRad, 100, 100);
 	
-	glutSolidSphere(10, 100, 100);
-	glDisable(GL_CLIP_PLANE0);
 	glPopMatrix();
 	
 }
 
+void drawStarshipTopFins() {
+	glPushMatrix();
+	glTranslatef(0, starshipHeight + superheavyHeight + topConeHeight - topFinHeight, 0);
+	glBegin(GL_POLYGON);
+	
+	glColor3f(1,1,1);
+	glVertex3f(0,0,0);
+	glVertex3f(1,0,0);
+	glVertex3f(2, 0.3, 0);
+	glVertex3f(2, 0.6, 0);
+	glVertex3f(0, topFinHeight, 0);
+	glVertex3f(-2, 0.6, 0);
+	glVertex3f(-2, 0.3, 0);
+	glVertex3f(-1, 0, 0);
+	glVertex3f(0, 0, 0);
+	glEnd();
+	
+	glPopMatrix();
+	
+}
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -185,9 +204,10 @@ void display() {
 		drawGrid();
 	}
 
-	//drawStarship();
-	//drawSuperheavy();
+	drawStarship();
+	drawSuperheavy();
 	drawTopCone();
+	drawStarshipTopFins();
 	glPopMatrix();
 	glutSwapBuffers();
 }
