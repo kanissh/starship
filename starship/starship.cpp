@@ -561,6 +561,87 @@ void drawStarshipSmallFins() {
 	glPopMatrix();
 }
 
+void drawSuperheavyBottomFins() {
+	glPushMatrix();
+	glTranslatef(0, 0, 0.15);
+	glBegin(GL_POLYGON);
+
+	glVertex3f(2, 0, 0);
+	glVertex3f(2, 1, 0);
+	glVertex3f(1, 3.75, 0);
+	glVertex3f(-1, 3.75, 0);
+	glVertex3f(-2, 1, 0);
+	glVertex3f(-2, 0, 0);
+	glVertex3f(2, 0, 0);
+
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0, -0.15);
+	glBegin(GL_POLYGON);
+
+	glVertex3f(2, 0, 0);
+	glVertex3f(2, 1, 0);
+	glVertex3f(1, 3.75, 0);
+	glVertex3f(-1, 3.75, 0);
+	glVertex3f(-2, 1, 0);
+	glVertex3f(-2, 0, 0);
+	glVertex3f(2, 0, 0);
+
+	glEnd();
+	glPopMatrix();
+
+	//bottom rectangle
+	glPushMatrix();
+	glBegin(GL_QUADS);
+	glVertex3f(2, 0, 0.15);
+	glVertex3f(2, 0, -0.15);
+	glVertex3f(-2, 0, -0.15);
+	glVertex3f(2, 0, 0.15);
+	glEnd();
+
+	//side staraight
+	glBegin(GL_QUADS);
+	glVertex3f(2, 0, 0.15);
+	glVertex3f(2, 0, -0.15);
+	glVertex3f(2, 1, -0.15);
+	glVertex3f(2, 1, 0.15);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glVertex3f(-2, 0, 0.15);
+	glVertex3f(-2, 0, -0.15);
+	glVertex3f(-2, 1, -0.15);
+	glVertex3f(-2, 1, 0.15);
+	glEnd();
+
+	//side slant
+	glBegin(GL_QUADS);
+	glVertex3f(2, 1, -0.15);
+	glVertex3f(2, 1, 0.15);
+	glVertex3f(1, 3.75, 0.15);
+	glVertex3f(1, 3.75, -0.15);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glVertex3f(-2, 1, -0.15);
+	glVertex3f(-2, 1, 0.15);
+	glVertex3f(-1, 3.75, 0.15);
+	glVertex3f(-1, 3.75, -0.15);
+	glEnd();
+
+	//top rectangle
+	glBegin(GL_QUADS);
+	glVertex3f(1, 3.75, 0.15);
+	glVertex3f(1, 3.75, -0.15);
+	glVertex3f(-1, 3.75, -0.15);
+	glVertex3f(-1, 3.75, 0.15);
+	glEnd();
+
+	glPopMatrix();
+}
+
 void renderStarship() {
 	glPushMatrix();
 	drawStarship();
@@ -579,6 +660,21 @@ void renderStarship() {
 	glPopMatrix();
 }
 
+void renderSuperheavy() {
+	glPushMatrix();
+	drawSuperheavy();
+	glPopMatrix();
+
+	glPushMatrix();
+	drawSuperheavyBottomFins();
+	
+	glRotatef(45, 0, 1, 0);
+	drawSuperheavyBottomFins();
+
+	glRotatef(90, 0, 1, 0);
+	drawSuperheavyBottomFins();
+	glPopMatrix();
+}
 
 
 void display() {
@@ -600,11 +696,12 @@ void display() {
 		drawGrid();
 	}
 
-	
-	
-	
 	renderStarship();
-	drawSuperheavy();
+	renderSuperheavy();
+	
+	
+	
+	
 	
 	glPopMatrix();
 	glutSwapBuffers();
