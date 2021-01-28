@@ -758,28 +758,113 @@ void drawLaunchTower() {
 }
 
 void drawLaunchSupports() {
-	glPushMatrix();
-	glTranslatef(0,0,0.3);
-	drawCylinder(0.1, 5, 1,1,1);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0, 0,-0.3);
-	drawCylinder(0.1, 5, 1, 1, 1);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0, 1, 0.3);
-	drawCylinder(0.1, 5, 1, 1, 1);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0, 1, -0.3);
-	drawCylinder(0.1, 5, 1, 1, 1);
-	glPopMatrix();
+	GLint cornerPollLength = 5;
+	GLint cornerPollHeight = 1;
 
 	
 
+	//four corner polls
+	glPushMatrix();
+	glTranslatef(0, 0, 0.3);
+	drawCylinder(0.1, cornerPollLength, 1, 1, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0, -0.3);
+	drawCylinder(0.1, cornerPollLength, 1, 1, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, cornerPollHeight, 0.3);
+	drawCylinder(0.1, cornerPollLength, 1, 1, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, cornerPollHeight, -0.3);
+	drawCylinder(0.1, cornerPollLength, 1, 1, 1);
+	glPopMatrix();
+
+
+	//criss cross hatch
+	for (int i = 0; i < cornerPollLength; i++) {
+		glPushMatrix();
+		glTranslatef(i, 0, -0.3);
+		glRotatef(45, 0, 0, 1);
+
+		drawCylinder(0.05, 1.5, 1, 1, 1);
+		glPopMatrix();
+	}
+
+
+	for (int i = 0; i < cornerPollLength; i++) {
+		glPushMatrix();
+		glTranslatef(i, 0, 0.3);
+		glRotatef(45, 0, 0, 1);
+
+		drawCylinder(0.05, 1.5, 1, 1, 1);
+		glPopMatrix();
+	}
+
+	for (int i = 1; i < cornerPollLength + 1; i++) {
+		glPushMatrix();
+		glTranslatef(i, 0, -0.3);
+		glRotatef(135, 0, 0, 1);
+
+		drawCylinder(0.05, 1.5, 1, 1, 1);
+
+		glPopMatrix();
+	}
+
+	for (int i = 1; i < cornerPollLength + 1; i++) {
+		glPushMatrix();
+		glTranslatef(i, 0, 0.3);
+		glRotatef(135, 0, 0, 1);
+
+		drawCylinder(0.05, 1.5, 1, 1, 1);
+
+		glPopMatrix();
+	}
+
+	//crossbars bottom
+	for (int i = 1; i < cornerPollLength; i++) {
+		glPushMatrix();
+		glTranslatef(i, 0, 0.3);
+		glRotatef(90, 0, 1, 0);
+
+		drawCylinder(0.05, 0.6, 1, 1, 1);
+
+		glPopMatrix();
+	}
+
+	//crossbars top
+	for (int i = 1; i < cornerPollLength; i++) {
+		glPushMatrix();
+		glTranslatef(i, 1, 0.3);
+		glRotatef(90, 0, 1, 0);
+
+		drawCylinder(0.05, 0.6, 1, 1, 1);
+
+		glPopMatrix();
+	}
+	
+}
+
+void renderLaunchTower() {
+	glPushMatrix();
+	drawLaunchTower();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotatef(-90, 0, 1, 0);
+	glTranslatef(0, superheavyHeight - 3, 0);
+	drawLaunchSupports();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotatef(-90, 0, 1, 0);
+	glTranslatef(0, superheavyHeight + starshipHeight - 5, 0);
+	drawLaunchSupports();
+	glPopMatrix();
 }
 
 
@@ -802,11 +887,11 @@ void display() {
 		drawGrid();
 	}
 
-	//renderStarship();
-	//renderSuperheavy();
-	//drawLaunchTower();
+	renderStarship();
+	renderSuperheavy();
+	
 
-	drawLaunchSupports();
+	renderLaunchTower();
 	glPopMatrix();
 	glutSwapBuffers();
 }
