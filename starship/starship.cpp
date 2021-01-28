@@ -889,8 +889,6 @@ void display() {
 
 	renderStarship();
 	renderSuperheavy();
-	
-
 	renderLaunchTower();
 	glPopMatrix();
 	glutSwapBuffers();
