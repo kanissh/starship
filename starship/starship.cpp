@@ -145,6 +145,8 @@ void init() {
 	loadExternalTextures();
 
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+
 }
 
 void drawAxes() {
@@ -169,7 +171,7 @@ void drawAxes() {
 
 void drawGrid() {
 	GLfloat ext = 20.0f;
-	GLfloat step = 1.0f;
+	GLfloat step = 1.0f ;
 	GLfloat yGrid = 0.0f;
 	GLint line;
 
@@ -676,6 +678,110 @@ void renderSuperheavy() {
 	glPopMatrix();
 }
 
+void drawLaunchTower() {
+	//front
+	glPushMatrix();
+	glRotatef(90,0,1,0);
+	glTranslatef(-6,0,0.5);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0, superheavyHeight + starshipHeight, 0);
+	glVertex3f(4, superheavyHeight + starshipHeight, 0);
+	glVertex3f(4, superheavyHeight + starshipHeight - 1, 0);
+	glVertex3f(2, superheavyHeight + starshipHeight - 4, 0);
+	glVertex3f(2, 0, 0);
+	glVertex3f(0, 0, 0);
+	glEnd();
+	glPopMatrix();
+
+	//back
+	glPushMatrix();
+	glRotatef(90, 0, 1, 0);
+	glTranslatef(-6, 0, -0.5);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0, superheavyHeight + starshipHeight, 0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(2, 0, 0);
+	glVertex3f(2, superheavyHeight + starshipHeight - 4, 0);
+	glVertex3f(4, superheavyHeight + starshipHeight - 1, 0);
+	glVertex3f(4, superheavyHeight + starshipHeight, 0);
+	glEnd();
+	glPopMatrix();
+
+	//right
+	glPushMatrix();
+	glTranslatef(0, 0,6);
+	glBegin(GL_QUADS);
+	glVertex3f(0.5, superheavyHeight + starshipHeight, 0);
+	glVertex3f(-0.5, superheavyHeight + starshipHeight, 0);
+	glVertex3f(-0.5, 0, 0);
+	glVertex3f(0.5, 0, 0);
+	glEnd();
+	glPopMatrix();
+
+	//top
+	glPushMatrix();
+	glTranslatef(0, 0, 2);
+	glBegin(GL_QUADS);
+	glVertex3f(0.5, superheavyHeight + starshipHeight, 0);
+	glVertex3f(-0.5, superheavyHeight + starshipHeight, 0);
+	glVertex3f(-0.5, superheavyHeight + starshipHeight, 4);
+	glVertex3f(0.5, superheavyHeight + starshipHeight, 4);
+	
+	glEnd();
+	glPopMatrix();
+
+	//left
+	glPushMatrix();
+	glTranslatef(0,0,2);
+	glBegin(GL_QUAD_STRIP);
+	glVertex3f(0.5, superheavyHeight + starshipHeight, 0);
+	glVertex3f(-0.5, superheavyHeight + starshipHeight, 0);
+	glVertex3f(0.5, superheavyHeight + starshipHeight-1, 0);
+	glVertex3f(-0.5, superheavyHeight + starshipHeight - 1, 0);
+	glVertex3f(0.5, superheavyHeight + starshipHeight - 4, 2);
+	glVertex3f(-0.5, superheavyHeight + starshipHeight - 4, 2);
+	glVertex3f(0.5, 0, 2);
+	glVertex3f(-0.5, 0, 2);
+	glEnd();
+	glPopMatrix();
+
+	//bottom
+	glPushMatrix();
+	glTranslatef(0, 0, 4);
+	glBegin(GL_QUADS);
+	glVertex3f(0.5, 0, 0);
+	glVertex3f(-0.5, 0, 0);
+	glVertex3f(-0.5, 0, 2);
+	glVertex3f(0.5, 0, 2);
+	glEnd();
+	glPopMatrix();
+}
+
+void drawLaunchSupports() {
+	glPushMatrix();
+	glTranslatef(0,0,0.3);
+	drawCylinder(0.1, 5, 1,1,1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0,-0.3);
+	drawCylinder(0.1, 5, 1, 1, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 1, 0.3);
+	drawCylinder(0.1, 5, 1, 1, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 1, -0.3);
+	drawCylinder(0.1, 5, 1, 1, 1);
+	glPopMatrix();
+
+	
+
+}
+
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -696,13 +802,11 @@ void display() {
 		drawGrid();
 	}
 
-	renderStarship();
-	renderSuperheavy();
-	
-	
-	
-	
-	
+	//renderStarship();
+	//renderSuperheavy();
+	//drawLaunchTower();
+
+	drawLaunchSupports();
 	glPopMatrix();
 	glutSwapBuffers();
 }
