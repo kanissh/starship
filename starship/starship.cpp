@@ -1,7 +1,6 @@
 #include <cmath>
 #include <iostream>
-#include <GL/glut.h>  
-#include <SOIL2.h>
+#include <GL/glut.h> 
 #include <fstream>
 
 using namespace std;
@@ -867,6 +866,116 @@ void renderLaunchTower() {
 	glPopMatrix();
 }
 
+void renderLaunchStage() {
+	glPushMatrix();
+	//top
+	glColor3f(1,1,1);
+	glBegin(GL_QUADS);
+	glVertex3f(4,0,10);
+	glVertex3f(4,0,-6);
+	glVertex3f(-5,0,-6);
+	glVertex3f(-5,0,10);
+
+	//front slant
+	glEnd();
+	glColor3f(1,0,1);
+	glBegin(GL_QUADS);
+	glVertex3f(-5, 0, 10);
+	glVertex3f(-5, 0, -6);
+	glVertex3f(-15, -4, -6);
+	glVertex3f(-15, -4, 10);
+
+	glEnd();
+
+	//side1
+	glBegin(GL_QUADS);
+	glColor3f(1,1,1);
+	glVertex3f(4, 0, 10);
+	glVertex3f(-5, 0, 10);
+	glVertex3f(-5, -2, 20);
+	glVertex3f(4, -2, 20);
+	glEnd();
+
+	//side2
+	glBegin(GL_QUADS);
+	glColor3f(1, 1, 1);
+	glVertex3f(-5, 0, -6);
+	glVertex3f(4, 0, -6);
+	glVertex3f(4, -2, -20);
+	glVertex3f(-5, -2, -20);
+	glEnd();
+
+	//slant side1
+	glBegin(GL_QUAD_STRIP);
+	glColor3f(1, 0.5, 0.5);
+	glVertex3f(-5, 0, 10);
+	glVertex3f(-15, -4, 10);
+	glVertex3f(-5, -2, 20);
+	glVertex3f(-15, -4, 20);
+	glEnd();
+
+	//slant side2
+	glBegin(GL_QUAD_STRIP);
+	glColor3f(1, 0.5, 0.5);
+	glVertex3f(-5, 0, -6);
+	glVertex3f(-15, -4, -6);
+	glVertex3f(-5, -2, -20);
+	glVertex3f(-15, -4, -20);
+	glEnd();
+
+	//vertical side1
+	glBegin(GL_QUAD_STRIP);
+	glColor3f(1, 0.5, 0.5);
+	glVertex3f(-5, 0, -6);
+	glVertex3f(-15, -4, -6);
+	glVertex3f(-5, -2, -20);
+	glVertex3f(-15, -4, -20);
+	glEnd();
+
+	//vertical side2
+	glBegin(GL_QUAD_STRIP);
+	glColor3f(1, 0.5, 0.5);
+	glVertex3f(-5, 0, -6);
+	glVertex3f(-15, -4, -6);
+	glVertex3f(-5, -2, -20);
+	glVertex3f(-15, -4, -20);
+	glEnd();
+
+	//back slant side1
+	glBegin(GL_QUAD_STRIP);
+	glColor3f(1, 0.1, 0.5);
+	glVertex3f(4, 0, 10);
+	glVertex3f(4, -2, 20);
+	glVertex3f(10, -4, 10);
+	glVertex3f(10, -4, 20);
+	glEnd();
+
+	//back slant side2
+	glBegin(GL_QUAD_STRIP);
+	glColor3f(1, 0.1, 0.5);
+	glVertex3f(4, 0, -6);
+	glVertex3f(4, -2, -20);
+	glVertex3f(10, -4, -6);
+	glVertex3f(10, -4, -20);
+	glEnd();
+
+	glBegin(GL_TRIANGLE_STRIP);
+	glColor3f(0.5, 0.1, 0.5);
+	glVertex3f(10, -4, 10);
+	glVertex3f(4, 0, 10);
+	glVertex3f(4, -4, 10);
+	glVertex3f(-5, 0, 10);
+	glVertex3f(-5, -4, 10);
+	glVertex3f(-5, 0, -6);
+	glVertex3f(-5, -4, -6);
+	glVertex3f(4, 0, -6);
+	glVertex3f(4, -4, -6);
+	glVertex3f(10, -4, -6);
+	glEnd();
+
+	glPopMatrix();
+}
+
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -886,10 +995,16 @@ void display() {
 	if (showGrid) {
 		drawGrid();
 	}
-
+	glPushMatrix();
+	glTranslatef(0,4,0);
 	renderStarship();
 	renderSuperheavy();
 	renderLaunchTower();
+	
+
+	
+	renderLaunchStage();
+	glPopMatrix();
 	glPopMatrix();
 	glutSwapBuffers();
 }
