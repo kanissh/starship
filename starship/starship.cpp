@@ -144,6 +144,7 @@ void init() {
 	loadExternalTextures();
 
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	glEnable(GL_NORMALIZE);
 
 
 }
@@ -868,17 +869,9 @@ void renderLaunchTower() {
 
 void renderLaunchStage() {
 	glPushMatrix();
-	//top
-	glColor3f(1,1,1);
-	glBegin(GL_QUADS);
-	glVertex3f(4,0,10);
-	glVertex3f(4,0,-6);
-	glVertex3f(-5,0,-6);
-	glVertex3f(-5,0,10);
 
 	//front slant
-	glEnd();
-	glColor3f(1,0,1);
+	
 	glBegin(GL_QUADS);
 	glVertex3f(-5, 0, 10);
 	glVertex3f(-5, 0, -6);
@@ -973,6 +966,56 @@ void renderLaunchStage() {
 	glVertex3f(10, -4, -6);
 	glEnd();
 
+
+	GLfloat elevation = 0.5f;
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_QUADS);
+
+	//side 1
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-5, 0, 10);
+	glVertex3f(-5, -elevation, 10);
+	glVertex3f(4, -elevation, 10);
+	glVertex3f(4, 0, 10);
+
+
+	//back
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(4, 0, 10);
+	glVertex3f(4, -elevation, 10);
+	glVertex3f(4, -elevation, -6);
+	glVertex3f(4, 0, -6);
+
+	//side 2
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(4, 0, -6);
+	glVertex3f(4, -elevation, -6);
+	glVertex3f(-5, -elevation, -6);
+	glVertex3f(-5, 0, -6);
+
+	//front
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glVertex3f(-5, 0, 10);
+	glVertex3f(-5, 0, -6);
+	glVertex3f(-5, -elevation, -6);
+	glVertex3f(-5, -elevation, 10);
+
+	//top
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-5, 0, 10);
+	glVertex3f(4, 0, 10);
+	glVertex3f(4, 0, -6);
+	glVertex3f(-5, 0, -6);
+
+	//bottom
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glVertex3f(-5, -elevation, 10);
+	glVertex3f(4, -elevation, 10);
+	glVertex3f(4, -elevation, -6);
+	glVertex3f(-5, -elevation, -6);
+
+	glEnd();
+
 	glPopMatrix();
 }
 
@@ -1000,11 +1043,10 @@ void display() {
 	renderStarship();
 	renderSuperheavy();
 	renderLaunchTower();
-	
-
-	
 	renderLaunchStage();
 	glPopMatrix();
+
+	
 	glPopMatrix();
 	glutSwapBuffers();
 }
@@ -1083,6 +1125,99 @@ void changeSize(GLsizei w, GLsizei h) {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
+//void drawScene() {
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//
+//	glMatrixMode(GL_MODELVIEW);
+//	glLoadIdentity();
+//
+//	glTranslatef(0.0f, 0.0f, -8.0f);
+//	gluLookAt(10.0 + camX, 10.0 + camY, 10.0 + camZ, 0, 0, 0, 0, 1.0, 0);
+//
+//	glTranslatef(moveX, moveY, moveZ);
+//	glRotatef(rotX, 1.0f, 0.0f, 0.0f);
+//	glRotatef(rotY, 0.0f, 1.0f, 0.0f);
+//	glRotatef(rotZ, 0.0f, 0.0f, 1.0f);
+//
+//	if (showAxes) {
+//		drawAxes();
+//	}
+//
+//	if (showGrid) {
+//		drawGrid();
+//	}
+//
+//	//Add ambient light
+//	GLfloat ambientColor[] = { 0.2f, 0.2f, 0.2f, 1.0f }; //Color (0.2, 0.2, 0.2)
+//	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+//
+//	//Add positioned light
+//	GLfloat lightColor0[] = { 0.5f, 0.5f, 0.5f, 1.0f }; //Color (0.5, 0.5, 0.5)
+//	GLfloat lightPos0[] = { 4.0f, 0.0f, 8.0f, 1.0f }; //Positioned at (4, 0, 8)
+//	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+//	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+//
+//	//Add directed light
+//	GLfloat lightColor1[] = { 0.5f, 0.2f, 0.2f, 1.0f }; //Color (0.5, 0.2, 0.2)
+//	//Coming from the direction (-1, 0.5, 0.5)
+//	GLfloat lightPos1[] = { -1.0f, 0.5f, 0.5f, 0.0f };
+//	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
+//	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+//
+//	GLfloat elevation = 0.5f;
+//	glColor3f(1.0f, 0.0f, 0.0f);
+//	glBegin(GL_QUADS);
+//
+//	//side 1
+//	glNormal3f(0.0f, 0.0f, 1.0f);
+//	glVertex3f(-5, 0, 10);
+//	glVertex3f(-5, elevation, 10);
+//	glVertex3f(4, elevation, 10);
+//	glVertex3f(4, 0, 10);
+//
+//
+//	//back
+//	glNormal3f(1.0f, 0.0f, 0.0f);
+//	glVertex3f(4, 0, 10);
+//	glVertex3f(4, elevation, 10);
+//	glVertex3f(4, elevation, -6);
+//	glVertex3f(4, 0, -6);
+//
+//	//side 2
+//	glNormal3f(0.0f, 0.0f, -1.0f);
+//	glVertex3f(4, 0, -6);
+//	glVertex3f(4, elevation, -6);
+//	glVertex3f(-5, elevation, -6);
+//	glVertex3f(-5, 0, -6);
+//
+//	//front
+//	glNormal3f(-1.0f, 0.0f, 0.0f);
+//	glVertex3f(-5, 0, 10);
+//	glVertex3f(-5, 0, -6);
+//	glVertex3f(-5, elevation, -6);
+//	glVertex3f(-5, elevation, 10);
+//
+//	//top
+//	glNormal3f(0.0f, 1.0f, 0.0f);
+//	glVertex3f(-5, 0, 10);
+//	glVertex3f(4, 0, 10);
+//	glVertex3f(4, 0, -6);
+//	glVertex3f(-5, 0, -6);
+//
+//	//bottom
+//	glNormal3f(0.0f, -1.0f, 0.0f);
+//	glVertex3f(-5, elevation, 10);
+//	glVertex3f(4, elevation, 10);
+//	glVertex3f(4, elevation, -6);
+//	glVertex3f(-5, elevation, -6);
+//
+//
+//
+//	glEnd();
+//
+//	glutSwapBuffers();
+//}
 
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
