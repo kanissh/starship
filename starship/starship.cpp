@@ -1019,45 +1019,80 @@ void renderLaunchStage() {
 	glPopMatrix();
 }
 
+void drawO2Tank() {
+	double eqnTop[] = { 0.0, 0.0, 1.0, 0.0 };
+	//Cylinder tank
+	glPushMatrix();
+	gluCylinder(qobj, 2, 2, 2.5, 100, 100);
+	glPopMatrix();
+
+	//top dome 
+	glTranslatef(0, 0, 2.5);
+	glPushMatrix();
+
+	glClipPlane(GL_CLIP_PLANE0, eqnTop);
+	glEnable(GL_CLIP_PLANE0);
+
+	glTranslatef(0, 0, -2.21);
+	glColor3f(1, 0, 1);
+	glutSolidSphere(3, 100, 100);
+
+	glDisable(GL_CLIP_PLANE0);
+	glPopMatrix();
 
 
-void drawOxygenTank() {
+	//bottom dome 
+	glTranslatef(0, 0, -2.5);
+	glRotatef(180, 1, 0, 0);
+	glPushMatrix();
+	glClipPlane(GL_CLIP_PLANE0, eqnTop);
+	glEnable(GL_CLIP_PLANE0);
+	glColor3f(1, 0, 1);
+	glTranslatef(0, 0, -2.21);
+	glutSolidSphere(3, 100, 100);
+
+	glDisable(GL_CLIP_PLANE0);
+	glPopMatrix();
+}
+
+void drawO2TankPillars() {
 	GLUquadricObj* qobj;
 	GLfloat towerPillarHeight = 10;
+	GLfloat towerPillarRadius = 3;
+	GLfloat towerPillarLeanAngle = 9;
 
 	qobj = gluNewQuadric();
 	gluQuadricDrawStyle(qobj, GLU_FILL);
 	gluQuadricNormals(qobj, GLU_SMOOTH);
-	
-	glPushMatrix();//pillars
-	glRotatef(90, -1,0,0);
+
+	glRotatef(90, -1, 0, 0);
 
 	//center pipe
-	gluCylinder(qobj, 0.25, 0.25, towerPillarHeight, 100, 100);
+	gluCylinder(qobj, 0.5, 0.5, towerPillarHeight, 100, 100);
 
 	//x
 	glPushMatrix();
-	glTranslatef(2,0,0);
-	glRotatef(7, 0, -1, 0);
+	glTranslatef(towerPillarRadius,0,0);
+	glRotatef(towerPillarLeanAngle, 0, -1, 0);
 	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-2, 0, 0);
-	glRotatef(7, 0, 1, 0);
+	glTranslatef(-towerPillarRadius, 0, 0);
+	glRotatef(towerPillarLeanAngle, 0, 1, 0);
 	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	//y
 	glPushMatrix();
-	glTranslatef(0, -2, 0);
-	glRotatef(7, -1, 0, 0);
+	glTranslatef(0, -towerPillarRadius, 0);
+	glRotatef(towerPillarLeanAngle, -1, 0, 0);
 	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
 	glPopMatrix();
 	
 	glPushMatrix();
-	glTranslatef(0, 2, 0);
-	glRotatef(7, 1, 0, 0);
+	glTranslatef(0, towerPillarRadius, 0);
+	glRotatef(towerPillarLeanAngle, 1, 0, 0);
 	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
@@ -1067,42 +1102,44 @@ void drawOxygenTank() {
 	glRotatef(45, 0, 0, 1);
 	//x
 	glPushMatrix();
-	glTranslatef(2, 0, 0);
-	glRotatef(7, 0, -1, 0);
+	glTranslatef(towerPillarRadius, 0, 0);
+	glRotatef(towerPillarLeanAngle, 0, -1, 0);
 	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-2, 0, 0);
-	glRotatef(7, 0, 1, 0);
+	glTranslatef(-towerPillarRadius, 0, 0);
+	glRotatef(towerPillarLeanAngle, 0, 1, 0);
 	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	//y
 	glPushMatrix();
-	glTranslatef(0, -2, 0);
-	glRotatef(7, -1, 0, 0);
+	glTranslatef(0, -towerPillarRadius, 0);
+	glRotatef(towerPillarLeanAngle, -1, 0, 0);
 	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0, 2, 0);
-	glRotatef(7, 1, 0, 0);
+	glTranslatef(0, towerPillarRadius, 0);
+	glRotatef(towerPillarLeanAngle, 1, 0, 0);
 	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	glPopMatrix();//diagonal pillars
-
-	//Cylinder tank
-	glPushMatrix();
-	gluCylinder(qobj, 2, 2, 2.5, 100, 100);
-	glPopMatrix();
-
-
-
-	glFlush();
-	glPopMatrix();//pillars
 }
+
+
+void renderO2Tank() {
+	
+	glPushMatrix();
+	drawO2TankPillars();
+	glTranslatef(0,0,10);
+	drawO2Tank();
+	glFlush();
+	glPopMatrix();
+}
+
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1128,7 +1165,7 @@ void display() {
 	renderSuperheavy();
 	renderLaunchTower();
 	renderLaunchStage();*/
-	drawOxygenTank();
+	renderO2Tank();
 	glPopMatrix();
 
 	
