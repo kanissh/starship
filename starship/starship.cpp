@@ -1020,6 +1020,90 @@ void renderLaunchStage() {
 }
 
 
+
+void drawOxygenTank() {
+	GLUquadricObj* qobj;
+	GLfloat towerPillarHeight = 10;
+
+	qobj = gluNewQuadric();
+	gluQuadricDrawStyle(qobj, GLU_FILL);
+	gluQuadricNormals(qobj, GLU_SMOOTH);
+	
+	glPushMatrix();//pillars
+	glRotatef(90, -1,0,0);
+
+	//center pipe
+	gluCylinder(qobj, 0.25, 0.25, towerPillarHeight, 100, 100);
+
+	//x
+	glPushMatrix();
+	glTranslatef(2,0,0);
+	glRotatef(7, 0, -1, 0);
+	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-2, 0, 0);
+	glRotatef(7, 0, 1, 0);
+	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	glPopMatrix();
+
+	//y
+	glPushMatrix();
+	glTranslatef(0, -2, 0);
+	glRotatef(7, -1, 0, 0);
+	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	glPopMatrix();
+	
+	glPushMatrix();
+	glTranslatef(0, 2, 0);
+	glRotatef(7, 1, 0, 0);
+	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	glPopMatrix();
+
+
+	//diagonal pillars
+	glPushMatrix();//diagonal pillars
+	glRotatef(45, 0, 0, 1);
+	//x
+	glPushMatrix();
+	glTranslatef(2, 0, 0);
+	glRotatef(7, 0, -1, 0);
+	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-2, 0, 0);
+	glRotatef(7, 0, 1, 0);
+	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	glPopMatrix();
+
+	//y
+	glPushMatrix();
+	glTranslatef(0, -2, 0);
+	glRotatef(7, -1, 0, 0);
+	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 2, 0);
+	glRotatef(7, 1, 0, 0);
+	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	glPopMatrix();
+
+	glPopMatrix();//diagonal pillars
+
+	//Cylinder tank
+	glPushMatrix();
+	gluCylinder(qobj, 2, 2, 2.5, 100, 100);
+	glPopMatrix();
+
+
+
+	glFlush();
+	glPopMatrix();//pillars
+}
+
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
@@ -1039,11 +1123,12 @@ void display() {
 		drawGrid();
 	}
 	glPushMatrix();
-	glTranslatef(0,4,0);
-	renderStarship();
+	//glTranslatef(0,4,0);
+	/*renderStarship();
 	renderSuperheavy();
 	renderLaunchTower();
-	renderLaunchStage();
+	renderLaunchStage();*/
+	drawOxygenTank();
 	glPopMatrix();
 
 	
@@ -1125,99 +1210,6 @@ void changeSize(GLsizei w, GLsizei h) {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
-
-//void drawScene() {
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//
-//	glMatrixMode(GL_MODELVIEW);
-//	glLoadIdentity();
-//
-//	glTranslatef(0.0f, 0.0f, -8.0f);
-//	gluLookAt(10.0 + camX, 10.0 + camY, 10.0 + camZ, 0, 0, 0, 0, 1.0, 0);
-//
-//	glTranslatef(moveX, moveY, moveZ);
-//	glRotatef(rotX, 1.0f, 0.0f, 0.0f);
-//	glRotatef(rotY, 0.0f, 1.0f, 0.0f);
-//	glRotatef(rotZ, 0.0f, 0.0f, 1.0f);
-//
-//	if (showAxes) {
-//		drawAxes();
-//	}
-//
-//	if (showGrid) {
-//		drawGrid();
-//	}
-//
-//	//Add ambient light
-//	GLfloat ambientColor[] = { 0.2f, 0.2f, 0.2f, 1.0f }; //Color (0.2, 0.2, 0.2)
-//	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
-//
-//	//Add positioned light
-//	GLfloat lightColor0[] = { 0.5f, 0.5f, 0.5f, 1.0f }; //Color (0.5, 0.5, 0.5)
-//	GLfloat lightPos0[] = { 4.0f, 0.0f, 8.0f, 1.0f }; //Positioned at (4, 0, 8)
-//	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-//	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
-//
-//	//Add directed light
-//	GLfloat lightColor1[] = { 0.5f, 0.2f, 0.2f, 1.0f }; //Color (0.5, 0.2, 0.2)
-//	//Coming from the direction (-1, 0.5, 0.5)
-//	GLfloat lightPos1[] = { -1.0f, 0.5f, 0.5f, 0.0f };
-//	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
-//	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
-//
-//	GLfloat elevation = 0.5f;
-//	glColor3f(1.0f, 0.0f, 0.0f);
-//	glBegin(GL_QUADS);
-//
-//	//side 1
-//	glNormal3f(0.0f, 0.0f, 1.0f);
-//	glVertex3f(-5, 0, 10);
-//	glVertex3f(-5, elevation, 10);
-//	glVertex3f(4, elevation, 10);
-//	glVertex3f(4, 0, 10);
-//
-//
-//	//back
-//	glNormal3f(1.0f, 0.0f, 0.0f);
-//	glVertex3f(4, 0, 10);
-//	glVertex3f(4, elevation, 10);
-//	glVertex3f(4, elevation, -6);
-//	glVertex3f(4, 0, -6);
-//
-//	//side 2
-//	glNormal3f(0.0f, 0.0f, -1.0f);
-//	glVertex3f(4, 0, -6);
-//	glVertex3f(4, elevation, -6);
-//	glVertex3f(-5, elevation, -6);
-//	glVertex3f(-5, 0, -6);
-//
-//	//front
-//	glNormal3f(-1.0f, 0.0f, 0.0f);
-//	glVertex3f(-5, 0, 10);
-//	glVertex3f(-5, 0, -6);
-//	glVertex3f(-5, elevation, -6);
-//	glVertex3f(-5, elevation, 10);
-//
-//	//top
-//	glNormal3f(0.0f, 1.0f, 0.0f);
-//	glVertex3f(-5, 0, 10);
-//	glVertex3f(4, 0, 10);
-//	glVertex3f(4, 0, -6);
-//	glVertex3f(-5, 0, -6);
-//
-//	//bottom
-//	glNormal3f(0.0f, -1.0f, 0.0f);
-//	glVertex3f(-5, elevation, 10);
-//	glVertex3f(4, elevation, 10);
-//	glVertex3f(4, elevation, -6);
-//	glVertex3f(-5, elevation, -6);
-//
-//
-//
-//	glEnd();
-//
-//	glutSwapBuffers();
-//}
 
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
