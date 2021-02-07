@@ -170,7 +170,7 @@ void drawAxes() {
 }
 
 void drawGrid() {
-	GLfloat ext = 20.0f;
+	GLfloat ext = 25.0f;
 	GLfloat step = 1.0f ;
 	GLfloat yGrid = 0.0f;
 	GLint line;
@@ -1056,14 +1056,14 @@ void drawO2Tank() {
 }
 
 void drawO2TankPillars() {
-	GLUquadricObj* qobj;
+	
 	GLfloat towerPillarHeight = 10;
-	GLfloat towerPillarRadius = 3;
+	GLfloat towerPillarDistance = 3;
 	GLfloat towerPillarLeanAngle = 9;
+	GLfloat mainPipeRadius = 0.5;
+	GLfloat supportPillarRadius = 0.20;
 
-	qobj = gluNewQuadric();
-	gluQuadricDrawStyle(qobj, GLU_FILL);
-	gluQuadricNormals(qobj, GLU_SMOOTH);
+	
 
 	glRotatef(90, -1, 0, 0);
 
@@ -1072,28 +1072,28 @@ void drawO2TankPillars() {
 
 	//x
 	glPushMatrix();
-	glTranslatef(towerPillarRadius,0,0);
+	glTranslatef(towerPillarDistance,0,0);
 	glRotatef(towerPillarLeanAngle, 0, -1, 0);
-	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	gluCylinder(qobj, supportPillarRadius, supportPillarRadius, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-towerPillarRadius, 0, 0);
+	glTranslatef(-towerPillarDistance, 0, 0);
 	glRotatef(towerPillarLeanAngle, 0, 1, 0);
-	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	gluCylinder(qobj, supportPillarRadius, supportPillarRadius, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	//y
 	glPushMatrix();
-	glTranslatef(0, -towerPillarRadius, 0);
+	glTranslatef(0, -towerPillarDistance, 0);
 	glRotatef(towerPillarLeanAngle, -1, 0, 0);
-	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	gluCylinder(qobj, supportPillarRadius, supportPillarRadius, towerPillarHeight, 100, 100);
 	glPopMatrix();
 	
 	glPushMatrix();
-	glTranslatef(0, towerPillarRadius, 0);
+	glTranslatef(0, towerPillarDistance, 0);
 	glRotatef(towerPillarLeanAngle, 1, 0, 0);
-	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	gluCylinder(qobj, supportPillarRadius, supportPillarRadius, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 
@@ -1102,31 +1102,46 @@ void drawO2TankPillars() {
 	glRotatef(45, 0, 0, 1);
 	//x
 	glPushMatrix();
-	glTranslatef(towerPillarRadius, 0, 0);
+	glTranslatef(towerPillarDistance, 0, 0);
 	glRotatef(towerPillarLeanAngle, 0, -1, 0);
-	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	gluCylinder(qobj, supportPillarRadius, supportPillarRadius, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-towerPillarRadius, 0, 0);
+	glTranslatef(-towerPillarDistance, 0, 0);
 	glRotatef(towerPillarLeanAngle, 0, 1, 0);
-	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	gluCylinder(qobj, supportPillarRadius, supportPillarRadius, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	//y
 	glPushMatrix();
-	glTranslatef(0, -towerPillarRadius, 0);
+	glTranslatef(0, -towerPillarDistance, 0);
 	glRotatef(towerPillarLeanAngle, -1, 0, 0);
-	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	gluCylinder(qobj, supportPillarRadius, supportPillarRadius, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0, towerPillarRadius, 0);
+	glTranslatef(0, towerPillarDistance, 0);
 	glRotatef(towerPillarLeanAngle, 1, 0, 0);
-	gluCylinder(qobj, 0.15, 0.15, towerPillarHeight, 100, 100);
+	gluCylinder(qobj, supportPillarRadius, supportPillarRadius, towerPillarHeight, 100, 100);
 	glPopMatrix();
 
 	glPopMatrix();//diagonal pillars
+
+	glPushMatrix();
+	glColor3f(1,0.25,0.25);
+	glTranslatef(0,0,2);
+	glutSolidTorus(0.125, 2.69, 100, 100);
+
+	glTranslatef(0, 0, 2);
+	glutSolidTorus(0.125, 2.366, 100, 100);
+
+	glTranslatef(0, 0, 2);
+	glutSolidTorus(0.125, 2.05, 100, 100);
+
+	glTranslatef(0, 0, 2);
+	glutSolidTorus(0.125, 1.73, 100, 100);
+	glPopMatrix();
 }
 
 
@@ -1138,6 +1153,109 @@ void renderO2Tank() {
 	drawO2Tank();
 	glFlush();
 	glPopMatrix();
+}
+
+void drawComTower() {
+	GLfloat comTowerHeight = 12;
+	GLfloat comTowerPillarRadius = 0.15;
+	GLfloat comTowerDistanceFromOrigin = 0.5;
+	
+	
+	glRotatef(90, -1, 0, 0);
+	glPushMatrix();
+	//pillars
+	glPushMatrix();
+	glTranslatef(comTowerDistanceFromOrigin, comTowerDistanceFromOrigin,0);
+	gluCylinder(qobj, comTowerPillarRadius, comTowerPillarRadius, comTowerHeight, 100, 100);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-comTowerDistanceFromOrigin, -comTowerDistanceFromOrigin, 0);
+	gluCylinder(qobj, comTowerPillarRadius, comTowerPillarRadius, comTowerHeight, 100, 100);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-comTowerDistanceFromOrigin, comTowerDistanceFromOrigin, 0);
+	gluCylinder(qobj, comTowerPillarRadius, comTowerPillarRadius, comTowerHeight, 100, 100);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(comTowerDistanceFromOrigin, -comTowerDistanceFromOrigin, 0);
+	gluCylinder(qobj, comTowerPillarRadius, comTowerPillarRadius, comTowerHeight, 100, 100);
+	glPopMatrix();
+	
+
+	//cylindrical circles
+	glPushMatrix();
+	for (int i = 3; i < comTowerHeight;i+=3) {
+		glTranslatef(0,0,3);
+		glutSolidTorus(0.15,comTowerDistanceFromOrigin + comTowerPillarRadius,100,100);
+	}
+	glPopMatrix();
+	glPopMatrix();
+
+	GLfloat topAntennaeStageHeight = 3;
+	GLfloat topAntennaeStagePillarRadius = 0.1;
+	GLfloat stageRadius = 2;
+	GLfloat antennaeRadius = 0.5;
+	GLfloat antennaeHeight = 7;
+
+	glPushMatrix();
+	glTranslatef(0,0,comTowerHeight);
+	// antennae top
+	glPushMatrix();
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0,0,0);
+	for (float i = 0; i < 360; i += 1.2) {
+		glVertex3f(stageRadius * cos(i), stageRadius * sin(i), 0.0);
+		glVertex3f(stageRadius * cos(i + 0.2), stageRadius * sin(i + 0.2), 0.0);
+	}
+
+	glEnd();
+	glPopMatrix();
+
+	// antennae top
+	glPushMatrix();
+	glTranslatef(0,0,topAntennaeStageHeight);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0, 0, 0);
+	for (float i = 0; i < 360; i += 1.2) {
+		glVertex3f(stageRadius * cos(i), stageRadius * sin(i), 0.0);
+		glVertex3f(stageRadius * cos(i + 0.2), stageRadius * sin(i + 0.2), 0.0);
+	}
+
+	glEnd();
+	glPopMatrix();
+
+
+	//circular pillars
+	glPushMatrix();
+	for (int i = 0; i < topAntennaeStageHeight;i+=1) {
+		glTranslatef(0,0,1);
+		glutSolidTorus(topAntennaeStagePillarRadius,stageRadius + topAntennaeStagePillarRadius,100,100);
+	}
+	glPopMatrix();
+
+	//vertical pillars
+	glPushMatrix();
+	for (float j = 0; j < 360; j += 45) {
+		glRotatef(45, 0, 0, 1);
+		glPushMatrix();
+		glTranslatef(stageRadius - topAntennaeStagePillarRadius,0,0);
+		gluCylinder(qobj, topAntennaeStagePillarRadius, topAntennaeStagePillarRadius, topAntennaeStageHeight, 100, 100);
+		glPopMatrix();
+	}
+	glPopMatrix();
+
+	//centre antennae
+	glPushMatrix();
+	gluCylinder(qobj, antennaeRadius, antennaeRadius, antennaeHeight,100,100);
+
+	glPopMatrix();
+	
+
+	glPopMatrix();
+	
 }
 
 
@@ -1160,15 +1278,33 @@ void display() {
 		drawGrid();
 	}
 	glPushMatrix();
-	//glTranslatef(0,4,0);
-	/*renderStarship();
+	glTranslatef(0,4,0);
+	renderStarship();
 	renderSuperheavy();
 	renderLaunchTower();
-	renderLaunchStage();*/
-	renderO2Tank();
+	renderLaunchStage();
 	glPopMatrix();
 
+	glPushMatrix();
+	glTranslatef(-17,0,-15);
+	renderO2Tank();
+	glPopMatrix();
 	
+	glPushMatrix();
+	glTranslatef(20, 0, -20);
+	drawComTower();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-20, 0, 20);
+	drawComTower();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(20, 0, 20);
+	drawComTower();
+	glPopMatrix();
+
 	glPopMatrix();
 	glutSwapBuffers();
 }
