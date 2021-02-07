@@ -136,15 +136,11 @@ void drawCylinder(GLfloat radius, GLfloat height, GLfloat r, GLfloat g, GLfloat 
 }
 
 void drawStarship() {
-
-	
-
 	glPushMatrix();
-	
-	glRotatef(90,0,0,1);
-	glTranslatef(superheavyHeight,0,0);
-	
-	drawCylinder(rocketRadius,starshipHeight, 1,0,1);
+	glColor3f(1,0.4,1);
+	glTranslatef(0,superheavyHeight,0);
+	glRotatef(90, -1, 0, 0);
+	gluCylinder(qobj, rocketRadius, rocketRadius, starshipHeight,100,100);
 	glPopMatrix();
 }
 
@@ -1179,11 +1175,11 @@ void display() {
 	glTranslatef(0,4,0);
 	renderStarship();
 	renderSuperheavy();
-	renderLaunchTower();
-	renderLaunchStage();
+	//renderLaunchTower();
+	//renderLaunchStage();
 	glPopMatrix();
 
-	glPushMatrix();
+	/*glPushMatrix();
 	glTranslatef(-17,0,-15);
 	renderO2Tank();
 	glPopMatrix();
@@ -1201,7 +1197,7 @@ void display() {
 	glPushMatrix();
 	glTranslatef(20, 0, 20);
 	drawComTower();
-	glPopMatrix();
+	glPopMatrix();*/
 
 	glPopMatrix();
 	glutSwapBuffers();
