@@ -148,8 +148,8 @@ void drawStarship() {
 
 void drawSuperheavy() {
 	glPushMatrix();
-	glRotatef(90, 0, 0, 1);
-	drawCylinder(rocketRadius, superheavyHeight,1,1,1);
+	glRotatef(90, -1, 0, 0);
+	gluCylinder(qobj, rocketRadius, rocketRadius, superheavyHeight, 100, 100);
 	glPopMatrix();
 }
  
