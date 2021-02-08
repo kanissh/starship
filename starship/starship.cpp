@@ -2,6 +2,7 @@
 #include <iostream>
 #include <GL/glut.h> 
 #include <fstream>
+#include <SOIL2.h>
 
 using namespace std;
 
