@@ -654,17 +654,24 @@ void drawLaunchTower() {
 void drawLaunchSupports() {
 	GLint cornerPollLength = 5;
 	GLint cornerPollHeight = 1;
+	GLfloat cornerPollRadius = 0.1;
 
-	
+	/*glPushMatrix();//glucylinder implementation
+	glTranslatef(0, 0, 0.3);
+	glRotatef(90,0,1,0);
+	gluCylinder(qobj, cornerPollRadius, cornerPollRadius, cornerPollLength, 100, 100);
+	glPopMatrix();*/
 
 	//four corner polls
 	glPushMatrix();
 	glTranslatef(0, 0, 0.3);
+	//gluCylinder(qobj, cornerPollRadius, cornerPollRadius, cornerPollLength, 100,100);
 	drawCylinder(0.1, cornerPollLength, 1, 1, 1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0, 0, -0.3);
+	//gluCylinder(qobj, cornerPollRadius, cornerPollRadius, cornerPollLength, 100, 100);
 	drawCylinder(0.1, cornerPollLength, 1, 1, 1);
 	glPopMatrix();
 
@@ -1175,11 +1182,11 @@ void display() {
 	glTranslatef(0,4,0);
 	renderStarship();
 	renderSuperheavy();
-	//renderLaunchTower();
-	//renderLaunchStage();
+	renderLaunchTower();
+	renderLaunchStage();
 	glPopMatrix();
 
-	/*glPushMatrix();
+	glPushMatrix();
 	glTranslatef(-17,0,-15);
 	renderO2Tank();
 	glPopMatrix();
@@ -1197,7 +1204,7 @@ void display() {
 	glPushMatrix();
 	glTranslatef(20, 0, 20);
 	drawComTower();
-	glPopMatrix();*/
+	glPopMatrix();
 
 	glPopMatrix();
 	glutSwapBuffers();
