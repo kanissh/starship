@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\kanis\Downloads\SOIL2-master\src\SOIL2;F:\FOS\SEM 2\CS308 Computer Graphics Programming Practical\GL_files\include;$(IncludePath)</IncludePath>
+    <IncludePath>F:\FOS\SEM 2\CS308 Computer Graphics Programming Practical\SOIL2-release-1.20\src\SOIL2;F:\FOS\SEM 2\CS308 Computer Graphics Programming Practical\GL_files\include;$(IncludePath)</IncludePath>
     <LibraryPath>F:\FOS\SEM 2\CS308 Computer Graphics Programming Practical\GL_files\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
