@@ -36,18 +36,23 @@ GLfloat topConeBottomRad = 1;
 GLfloat topFinHeight = 3.5;
 GLfloat bottomFinHeight = 4;
 
-GLuint tex;
+GLuint steelTex;
 
 
-GLuint tex_2d = SOIL_load_OGL_texture
-(
-	"img.png",
-	SOIL_LOAD_AUTO,
-	SOIL_CREATE_NEW_ID,
-	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
-);
+void initTexture() {
+steelTex = SOIL_load_OGL_texture
+	(
+		"C:/Users/kanis/Desktop/stainless-steel-5.jpg",
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+	);
 
-
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
 
 
 void init() {
@@ -58,6 +63,10 @@ void init() {
 	gluQuadricDrawStyle(qobj, GLU_FILL);
 	gluQuadricNormals(qobj, GLU_SMOOTH);
 	glEnable(GL_NORMALIZE);
+	initTexture();
+
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
 }
 
 
@@ -152,10 +161,18 @@ void drawCylinder(GLfloat radius, GLfloat height, GLfloat r, GLfloat g, GLfloat 
 
 void drawStarship() {
 	glPushMatrix();
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, tex);
+	gluQuadricTexture(qobj, GL_TRUE);		// Create Texture Coords   
+	gluQuadricNormals(qobj, GLU_SMOOTH);
+	
 	glColor3f(1,0.4,1);
 	glTranslatef(0,superheavyHeight,0);
 	glRotatef(90, -1, 0, 0);
+	
 	gluCylinder(qobj, rocketRadius, rocketRadius, starshipHeight,100,100);
+	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
 
@@ -785,13 +802,16 @@ void renderLaunchTower() {
 
 void renderBase() {
 	glPushMatrix();
+	
+	
 	glBegin(GL_QUADS);
-	glVertex3f(25,0,25);
-	glVertex3f(-25,0, 25);
-	glVertex3f(-25,0, -25);
-	glVertex3f(25,0, -25);
+	glTexCoord2f(0.0, 0.0); glVertex3f(25,0,25);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-25,0, 25);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-25,0, -25);
+	glTexCoord2f(0.0, 1.0); glVertex3f(25,0, -25);
 	glEnd();
 
+	
 	glPopMatrix();
 }
 
