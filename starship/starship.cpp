@@ -42,7 +42,7 @@ GLuint steelTex;
 void initTexture() {
 steelTex = SOIL_load_OGL_texture
 	(
-		"C:/Users/kanis/Desktop/stainless-steel-5.jpg",
+		"../textures/steel-tex.jpg",
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
@@ -163,8 +163,8 @@ void drawStarship() {
 	glPushMatrix();
 
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex);
-	gluQuadricTexture(qobj, GL_TRUE);		// Create Texture Coords   
+	glBindTexture(GL_TEXTURE_2D, steelTex);
+	gluQuadricTexture(qobj, GL_TRUE);	
 	gluQuadricNormals(qobj, GLU_SMOOTH);
 	
 	glColor3f(1,0.4,1);
@@ -180,8 +180,13 @@ void drawStarship() {
 
 void drawSuperheavy() {
 	glPushMatrix();
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, steelTex);
+	gluQuadricTexture(qobj, GL_TRUE);
+	gluQuadricNormals(qobj, GLU_SMOOTH);
 	glRotatef(90, -1, 0, 0);
 	gluCylinder(qobj, rocketRadius, rocketRadius, superheavyHeight, 100, 100);
+	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
  
