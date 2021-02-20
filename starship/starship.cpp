@@ -58,6 +58,13 @@ steelTexFins = SOIL_load_OGL_texture
 	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
 );
 
+concreteTex = SOIL_load_OGL_texture
+(
+	"../textures/concrete-tex.jpg",
+	SOIL_LOAD_AUTO,
+	SOIL_CREATE_NEW_ID,
+	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+);
 
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -834,6 +841,7 @@ void renderLaunchTower() {
 }
 
 void renderBase() {
+
 	glPushMatrix();
 	
 	
@@ -849,104 +857,117 @@ void renderBase() {
 }
 
 void renderLaunchStage() {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, concreteTex);
 	glPushMatrix();
 
 	//front slant
 	
 	glBegin(GL_QUADS);
-	glVertex3f(-5, 0, 10);
-	glVertex3f(-5, 0, -6);
-	glVertex3f(-15, -4, -6);
-	glVertex3f(-15, -4, 10);
+	glTexCoord2f(0.0, 0.0);glVertex3f(-5, 0, 10);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-5, 0, -6);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-15, -4, -6);
+	glTexCoord2f(0.0, 1.0);glVertex3f(-15, -4, 10);
+
+	
+
 
 	glEnd();
 
 	//side1
 	glBegin(GL_QUADS);
 	glColor3f(1,1,1);
-	glVertex3f(4, 0, 10);
-	glVertex3f(-5, 0, 10);
-	glVertex3f(-5, -4, 25);
-	glVertex3f(4, -4, 25);
+	glTexCoord2f(0.0, 0.0);glVertex3f(4, 0, 10);
+	glTexCoord2f(1.0, 0.0);glVertex3f(-5, 0, 10);
+	glTexCoord2f(1.0, 1.0);glVertex3f(-5, -4, 25);
+	glTexCoord2f(0.0, 1.0);glVertex3f(4, -4, 25);
 	glEnd();
+
+	
+	
+	
+	
 
 	//side2
 	glBegin(GL_QUADS);
 	glColor3f(1, 1, 1);
-	glVertex3f(-5, 0, -6);
-	glVertex3f(4, 0, -6);
-	glVertex3f(4, -4, -25);
-	glVertex3f(-5, -4, -25);
+	glTexCoord2f(0.0, 0.0);glVertex3f(-5, 0, -6);
+	glTexCoord2f(1.0, 0.0);glVertex3f(4, 0, -6);
+	glTexCoord2f(1.0, 1.0);glVertex3f(4, -4, -25);
+	glTexCoord2f(0.0, 1.0);glVertex3f(-5, -4, -25);
 	glEnd();
+	
 
 	//slant side1
 	glBegin(GL_QUAD_STRIP);
 	glColor3f(1, 0.5, 0.5);
-	glVertex3f(-5, 0, 10);
-	glVertex3f(-15, -4, 10);
-	glVertex3f(-5, -4, 25);
-	glVertex3f(-15, -4, 25);
+	glTexCoord2f(0.0, 0.0);glVertex3f(-5, 0, 10);
+	glTexCoord2f(1.0, 0.0);glVertex3f(-15, -4, 10);
+	glTexCoord2f(1.0, 1.0);glVertex3f(-5, -4, 25);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-15, -4, 25);
 	glEnd();
+
+
 
 	//slant side2
 	glBegin(GL_QUAD_STRIP);
 	glColor3f(1, 0.5, 0.5);
-	glVertex3f(-5, 0, -6);
-	glVertex3f(-15, -4, -6);
-	glVertex3f(-5, -4, -25);
-	glVertex3f(-15, -4, -25);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5, 0, -6);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-15, -4, -6);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-5, -4, -25);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-15, -4, -25);
 	glEnd();
 
 	//vertical side1
 	glBegin(GL_QUAD_STRIP);
 	glColor3f(1, 0.5, 0.5);
-	glVertex3f(-5, 0, -6);
-	glVertex3f(-15, -4, -6);
-	glVertex3f(-5, -4, -25);
-	glVertex3f(-15, -4, -25);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5, 0, -6);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-15, -4, -6);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-5, -4, -25);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-15, -4, -25);
 	glEnd();
 
 	//vertical side2
 	glBegin(GL_QUAD_STRIP);
 	glColor3f(1, 0.5, 0.5);
-	glVertex3f(-5, 0, -6);
-	glVertex3f(-15, -4, -6);
-	glVertex3f(-5, -4, -25);
-	glVertex3f(-15, -4, -25);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5, 0, -6);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-15, -4, -6);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-5, -4, -25);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-15, -4, -25);
 	glEnd();
 
 	//back slant side1
 	glBegin(GL_QUAD_STRIP);
 	glColor3f(1, 0.1, 0.5);
-	glVertex3f(4, 0, 10);
-	glVertex3f(4, -4, 25);
-	glVertex3f(10, -4, 10);
-	glVertex3f(10, -4, 25);
+	glTexCoord2f(0.0, 0.0); glVertex3f(4, 0, 10);
+	glTexCoord2f(1.0, 0.0); glVertex3f(4, -4, 25);
+	glTexCoord2f(1.0, 1.0); glVertex3f(10, -4, 10);
+	glTexCoord2f(0.0, 1.0); glVertex3f(10, -4, 25);
 	glEnd();
 
 	//back slant side2
 	glBegin(GL_QUAD_STRIP);
 	glColor3f(1, 0.1, 0.5);
-	glVertex3f(4, 0, -6);
-	glVertex3f(4, -4, -25);
-	glVertex3f(10, -4, -6);
-	glVertex3f(10, -4, -25);
+	glTexCoord2f(0.0, 0.0); glVertex3f(4, 0, -6);
+	glTexCoord2f(1.0, 0.0); glVertex3f(4, -4, -25);
+	glTexCoord2f(1.0, 1.0); glVertex3f(10, -4, -6);
+	glTexCoord2f(0.0, 1.0); glVertex3f(10, -4, -25);
 	glEnd();
 
 	glBegin(GL_TRIANGLE_STRIP);
 	glColor3f(0.5, 0.1, 0.5);
-	glVertex3f(10, -4, 10);
-	glVertex3f(4, 0, 10);
-	glVertex3f(4, -4, 10);
-	glVertex3f(-5, 0, 10);
-	glVertex3f(-5, -4, 10);
-	glVertex3f(-5, 0, -6);
-	glVertex3f(-5, -4, -6);
-	glVertex3f(4, 0, -6);
-	glVertex3f(4, -4, -6);
-	glVertex3f(10, -4, -6);
+	glTexCoord2f(0.0, 0.0); glVertex3f(10, -4, 10);
+	glTexCoord2f(1.0, 0.0); glVertex3f(4, 0, 10);
+	glTexCoord2f(1.0, 1.0); glVertex3f(4, -4, 10);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-5, 0, 10);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5, -4, 10);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-5, 0, -6);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-5, -4, -6);
+	glTexCoord2f(0.0, 1.0); glVertex3f(4, 0, -6);
+	glTexCoord2f(0.0, 0.0); glVertex3f(4, -4, -6);
+	glTexCoord2f(1.0, 0.0); glVertex3f(10, -4, -6);
 	glEnd();
-
+	
 
 	GLfloat elevation = 0.5f;
 	glColor3f(1.0f, 0.0f, 0.0f);
@@ -954,50 +975,52 @@ void renderLaunchStage() {
 
 	//side 1
 	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(-5, 0, 10);
-	glVertex3f(-5, -elevation, 10);
-	glVertex3f(4, -elevation, 10);
-	glVertex3f(4, 0, 10);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5, 0, 10);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-5, -elevation, 10);
+	glTexCoord2f(1.0, 1.0); glVertex3f(4, -elevation, 10);
+	glTexCoord2f(0.0, 1.0); glVertex3f(4, 0, 10);
 
 
 	//back
 	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(4, 0, 10);
-	glVertex3f(4, -elevation, 10);
-	glVertex3f(4, -elevation, -6);
-	glVertex3f(4, 0, -6);
+	glTexCoord2f(0.0, 0.0); glVertex3f(4, 0, 10);
+	glTexCoord2f(1.0, 0.0); glVertex3f(4, -elevation, 10);
+	glTexCoord2f(1.0, 1.0); glVertex3f(4, -elevation, -6);
+	glTexCoord2f(0.0, 1.0); glVertex3f(4, 0, -6);
 
 	//side 2
 	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(4, 0, -6);
-	glVertex3f(4, -elevation, -6);
-	glVertex3f(-5, -elevation, -6);
-	glVertex3f(-5, 0, -6);
+	glTexCoord2f(0.0, 0.0); glVertex3f(4, 0, -6);
+	glTexCoord2f(1.0, 0.0); glVertex3f(4, -elevation, -6);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-5, -elevation, -6);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-5, 0, -6);
 
 	//front
 	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3f(-5, 0, 10);
-	glVertex3f(-5, 0, -6);
-	glVertex3f(-5, -elevation, -6);
-	glVertex3f(-5, -elevation, 10);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5, 0, 10);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-5, 0, -6);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-5, -elevation, -6);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-5, -elevation, 10);
 
 	//top
 	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(-5, 0, 10);
-	glVertex3f(4, 0, 10);
-	glVertex3f(4, 0, -6);
-	glVertex3f(-5, 0, -6);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5, 0, 10);
+	glTexCoord2f(1.0, 0.0); glVertex3f(4, 0, 10);
+	glTexCoord2f(1.0, 1.0); glVertex3f(4, 0, -6);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-5, 0, -6);
 
 	//bottom
 	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3f(-5, -elevation, 10);
-	glVertex3f(4, -elevation, 10);
-	glVertex3f(4, -elevation, -6);
-	glVertex3f(-5, -elevation, -6);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5, -elevation, 10);
+	glTexCoord2f(1.0, 0.0); glVertex3f(4, -elevation, 10);
+	glTexCoord2f(1.0, 1.0); glVertex3f(4, -elevation, -6);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-5, -elevation, -6);
 
 	glEnd();
 
 	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+	
 }
 
 void drawO2Tank() {
