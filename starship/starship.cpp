@@ -37,6 +37,8 @@ GLfloat topFinHeight = 3.5;
 GLfloat bottomFinHeight = 4;
 
 GLuint steelTex;
+GLuint steelTexFins;
+GLuint concreteTex;
 
 
 void initTexture() {
@@ -47,6 +49,16 @@ steelTex = SOIL_load_OGL_texture
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
 	);
+
+steelTexFins = SOIL_load_OGL_texture
+(
+	"../textures/steel-tex-fins.jpg",
+	SOIL_LOAD_AUTO,
+	SOIL_CREATE_NEW_ID,
+	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+);
+
+
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -211,6 +223,8 @@ glPushMatrix();
 }
 
 void drawStarshipTopFins() {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, steelTexFins);
 	glPushMatrix();
 	glTranslatef(0, starshipHeight + superheavyHeight + topConeHeight - topFinHeight, 0.15);
 	glBegin(GL_POLYGON);
@@ -312,15 +326,20 @@ glPopMatrix();
 	glEnd();
 
 	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
 	
 }
 
 void drawStarshipBottomFins() {
 	
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, steelTexFins);
 	//large face
 	glPushMatrix();
+	
 	glTranslatef(0, superheavyHeight, -0.15);
 	glBegin(GL_POLYGON);
+	
 
 	glColor3f(1, 1, 1);
 	glVertex3f(0, 0, 0);
@@ -332,6 +351,7 @@ void drawStarshipBottomFins() {
 	glVertex3f(-2, 0, 0);
 	glVertex3f(0, 0, 0);
 	glEnd();
+	
 	glPopMatrix();
 
 	//large face
@@ -407,11 +427,14 @@ void drawStarshipBottomFins() {
 	glEnd();
 
 	glPopMatrix();
-
-
+	glDisable(GL_TEXTURE_2D);
+	
+	
 }
 
 void drawStarshipSmallFins() {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, steelTexFins);
 	glPushMatrix();
 	glTranslatef(0, 0, 0.05);
 	glBegin(GL_POLYGON);
@@ -492,9 +515,12 @@ void drawStarshipSmallFins() {
 	glEnd();
 
 	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void drawSuperheavyBottomFins() {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, steelTexFins);
 	glPushMatrix();
 	glTranslatef(0, 0, 0.15);
 	glBegin(GL_POLYGON);
@@ -573,6 +599,8 @@ void drawSuperheavyBottomFins() {
 	glEnd();
 
 	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+	
 }
 
 void renderStarship() {
