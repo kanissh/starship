@@ -24,6 +24,10 @@ bool showWireframe = true;
 bool showAxes = true;
 bool showGrid = true;
 
+GLint refreshMills = 100;
+GLboolean launchFlag = true;
+GLfloat launchSupportDisplacement = 1;
+
 
 GLfloat starshipHeight = 8.3; //11
 GLfloat superheavyHeight = 15;
@@ -132,7 +136,10 @@ void init() {
 
 }
 
-
+void Timer(int value) {
+	glutPostRedisplay();      
+	glutTimerFunc(refreshMills, Timer, 0); 
+}
 
 void drawAxes() {
 	glBegin(GL_LINES);
@@ -777,7 +784,7 @@ void drawLaunchTower() {
 }
 
 void drawLaunchSupports() {
-	GLint cornerPollLength = 5;
+	GLint cornerPollLength = 3.4;
 	GLint cornerPollHeight = 1;
 	GLfloat cornerPollRadius = 0.1;
 
@@ -787,10 +794,29 @@ void drawLaunchSupports() {
 	gluCylinder(qobj, cornerPollRadius, cornerPollRadius, cornerPollLength, 100, 100);
 	glPopMatrix();*/
 
+	glPushMatrix();
+
+	if (!launchFlag) {
+		glTranslatef(launchSupportDisplacement, 0, 0);
+	}
+	else {
+		glTranslatef(launchSupportDisplacement, 0, 0);
+		if (launchSupportDisplacement<2.8) {
+			
+			launchSupportDisplacement += 0.2;
+		}
+
+	}
+
+
+
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, offWhiteTex);
 	//four corner polls
 	glPushMatrix();
+
+	
+
 	glTranslatef(0, 0, 0.3);
 	//gluCylinder(qobj, cornerPollRadius, cornerPollRadius, cornerPollLength, 100,100);
 	drawCylinder(0.1, cornerPollLength, 1, 1, 1);
@@ -874,7 +900,7 @@ void drawLaunchSupports() {
 
 		glPopMatrix();
 	}
-	
+	glPopMatrix();
 }
 
 void renderLaunchTower() {
@@ -1380,11 +1406,18 @@ void display() {
 	renderBase();
 
 	glTranslatef(0,4,0);
-	renderStarship();
-	renderSuperheavy();
+	//renderStarship();
+	//renderSuperheavy();
 	renderLaunchTower();
 	renderLaunchStage();
 	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 4, 0);
+	renderStarship();
+	renderSuperheavy();
+	glPopMatrix();
+
 
 	glPushMatrix();
 	glTranslatef(-17,0,-15);
@@ -1497,7 +1530,7 @@ int main(int argc, char** argv) {
 
 	glutDisplayFunc(display);
 	glutReshapeFunc(changeSize);
-
+	glutTimerFunc(0, Timer, 0);
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(keyboardSpecial);
 
