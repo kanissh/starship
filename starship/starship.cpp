@@ -16,8 +16,8 @@ GLfloat rotX = 0.0f;
 GLfloat rotY = 0.0f;
 GLfloat rotZ = 0.0f;
 
-GLfloat camY = 0.0f;
-GLfloat camX = 0.0f;
+GLfloat camY = 30.0f;
+GLfloat camX = 5.0f;
 GLfloat camZ = 0.0f;
 
 bool showWireframe = true;
@@ -25,8 +25,9 @@ bool showAxes = true;
 bool showGrid = true;
 
 GLint refreshMills = 100;
-GLboolean launchFlag = true;
+GLboolean launchFlag = false;
 GLfloat launchSupportDisplacement = 1;
+GLfloat rocketPathDisplacement = 4;
 
 
 GLfloat starshipHeight = 8.3; //11
@@ -43,6 +44,7 @@ GLfloat bottomFinHeight = 4;
 GLuint steelTex;
 GLuint steelTexFins;
 GLuint concreteTex;
+GLuint concreteTexBase;
 GLuint redPillarTex;
 GLuint whiteMetalTex;
 GLuint blackTex;
@@ -74,9 +76,17 @@ concreteTex = SOIL_load_OGL_texture
 	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
 );
 
+concreteTexBase = SOIL_load_OGL_texture
+(
+	"../textures/concrete-tex.bmp",
+	SOIL_LOAD_AUTO,
+	SOIL_CREATE_NEW_ID,
+	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+);
+
 redPillarTex = SOIL_load_OGL_texture
 (
-	"../textures/red-pillar-tex.jpg",
+	"../textures/red-pillar-tex.bmp",
 	SOIL_LOAD_AUTO,
 	SOIL_CREATE_NEW_ID,
 	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
@@ -801,13 +811,10 @@ void drawLaunchSupports() {
 	}
 	else {
 		glTranslatef(launchSupportDisplacement, 0, 0);
-		if (launchSupportDisplacement<2.8) {
-			
+		if (launchSupportDisplacement<2.8) {	
 			launchSupportDisplacement += 0.2;
 		}
-
 	}
-
 
 
 	glEnable(GL_TEXTURE_2D);
@@ -924,16 +931,17 @@ void renderLaunchTower() {
 void renderBase() {
 
 	glPushMatrix();
-	
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, concreteTexBase);
 	
 	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 0.0); glVertex3f(25,0,25);
-	glTexCoord2f(1.0, 0.0); glVertex3f(-25,0, 25);
-	glTexCoord2f(1.0, 1.0); glVertex3f(-25,0, -25);
-	glTexCoord2f(0.0, 1.0); glVertex3f(25,0, -25);
+	glTexCoord2f(0.0, 0.0); glVertex3f(50,0,50);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-50,0, 50);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-50,0, -50);
+	glTexCoord2f(0.0, 1.0); glVertex3f(50,0, -50);
 	glEnd();
 
-	
+	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
 
@@ -1318,6 +1326,7 @@ void drawComTower() {
 	glBindTexture(GL_TEXTURE_2D, whiteMetalTex);
 	gluQuadricTexture(qobj, GL_TRUE);
 	gluQuadricNormals(qobj, GLU_SMOOTH);
+	
 	//cylindrical circles
 	glPushMatrix();
 
@@ -1331,6 +1340,9 @@ void drawComTower() {
 	
 
 	glPushMatrix();
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, redPillarTex);
+
 	glTranslatef(0,0,comTowerHeight);
 	// antennae top
 	glPushMatrix();
@@ -1356,6 +1368,7 @@ void drawComTower() {
 
 	glEnd();
 	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, whiteMetalTex);
@@ -1413,7 +1426,16 @@ void display() {
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0, 4, 0);
+	if (!launchFlag) {
+		glTranslatef(0, rocketPathDisplacement, 0);
+	}
+	else {
+		glTranslatef(0, rocketPathDisplacement, 0);
+		if (camY < 50) {
+			rocketPathDisplacement += 1;
+			camY += 1;
+		}
+	}
 	renderStarship();
 	renderSuperheavy();
 	glPopMatrix();
@@ -1495,15 +1517,23 @@ void keyboard(unsigned char key, int x, int y) {
 		showGrid = !showGrid;
 	}
 	else if (key == 'r') {
+		launchFlag = false;
+		GLfloat launchSupportDisplacement = 1;
+		GLfloat rocketPathDisplacement = 4;
+		
 		camY = -10;
-		rotY = 145;
+		camZ = 20;
 		moveY = 0;
-		moveX = 7;
+		moveX = 0;
 		moveZ = 10;
 	}
 	else if (key == 'p') {
 		std::cout << camY << "|" << rotY << "|" << moveY << "|" << moveX << "|" << moveZ;
 	}
+	else if (key == 'l') {
+		launchFlag = true;
+	}
+
 	glutPostRedisplay();
 }
 
