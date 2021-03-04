@@ -39,7 +39,11 @@ GLfloat bottomFinHeight = 4;
 GLuint steelTex;
 GLuint steelTexFins;
 GLuint concreteTex;
-
+GLuint redPillarTex;
+GLuint whiteMetalTex;
+GLuint blackTex;
+GLuint offGreyTex;
+GLuint offWhiteTex;
 
 void initTexture() {
 steelTex = SOIL_load_OGL_texture
@@ -61,6 +65,46 @@ steelTexFins = SOIL_load_OGL_texture
 concreteTex = SOIL_load_OGL_texture
 (
 	"../textures/concrete-tex.jpg",
+	SOIL_LOAD_AUTO,
+	SOIL_CREATE_NEW_ID,
+	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+);
+
+redPillarTex = SOIL_load_OGL_texture
+(
+	"../textures/red-pillar-tex.jpg",
+	SOIL_LOAD_AUTO,
+	SOIL_CREATE_NEW_ID,
+	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+);
+
+whiteMetalTex = SOIL_load_OGL_texture
+(
+	"../textures/white-metal-tex.jpg",
+	SOIL_LOAD_AUTO,
+	SOIL_CREATE_NEW_ID,
+	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+);
+
+blackTex = SOIL_load_OGL_texture
+(
+	"../textures/black-tex.jpg",
+	SOIL_LOAD_AUTO,
+	SOIL_CREATE_NEW_ID,
+	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+);
+
+offGreyTex = SOIL_load_OGL_texture
+(
+	"../textures/off-grey-tex.jpg",
+	SOIL_LOAD_AUTO,
+	SOIL_CREATE_NEW_ID,
+	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+);
+
+offWhiteTex = SOIL_load_OGL_texture
+(
+	"../textures/off-white-tex.jpg",
 	SOIL_LOAD_AUTO,
 	SOIL_CREATE_NEW_ID,
 	SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
@@ -646,16 +690,18 @@ void renderSuperheavy() {
 
 void drawLaunchTower() {
 	//front
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,offGreyTex);
 	glPushMatrix();
 	glRotatef(90,0,1,0);
 	glTranslatef(-6,0,0.5);
 	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0, superheavyHeight + starshipHeight, 0);
-	glVertex3f(4, superheavyHeight + starshipHeight, 0);
-	glVertex3f(4, superheavyHeight + starshipHeight - 1, 0);
-	glVertex3f(2, superheavyHeight + starshipHeight - 4, 0);
-	glVertex3f(2, 0, 0);
-	glVertex3f(0, 0, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(0, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(4, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(4, superheavyHeight + starshipHeight - 1, 0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(2, superheavyHeight + starshipHeight - 4, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(2, 0, 0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(0, 0, 0);
 	glEnd();
 	glPopMatrix();
 
@@ -664,23 +710,28 @@ void drawLaunchTower() {
 	glRotatef(90, 0, 1, 0);
 	glTranslatef(-6, 0, -0.5);
 	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0, superheavyHeight + starshipHeight, 0);
-	glVertex3f(0, 0, 0);
-	glVertex3f(2, 0, 0);
-	glVertex3f(2, superheavyHeight + starshipHeight - 4, 0);
-	glVertex3f(4, superheavyHeight + starshipHeight - 1, 0);
-	glVertex3f(4, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(0, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(0, 0, 0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(2, 0, 0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(2, superheavyHeight + starshipHeight - 4, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(4, superheavyHeight + starshipHeight - 1, 0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(4, superheavyHeight + starshipHeight, 0);
 	glEnd();
 	glPopMatrix();
+
+	glDisable(GL_TEXTURE_2D);
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, blackTex);
 
 	//right
 	glPushMatrix();
 	glTranslatef(0, 0,6);
 	glBegin(GL_QUADS);
-	glVertex3f(0.5, superheavyHeight + starshipHeight, 0);
-	glVertex3f(-0.5, superheavyHeight + starshipHeight, 0);
-	glVertex3f(-0.5, 0, 0);
-	glVertex3f(0.5, 0, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(0.5, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-0.5, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-0.5, 0, 0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(0.5, 0, 0);
 	glEnd();
 	glPopMatrix();
 
@@ -688,10 +739,10 @@ void drawLaunchTower() {
 	glPushMatrix();
 	glTranslatef(0, 0, 2);
 	glBegin(GL_QUADS);
-	glVertex3f(0.5, superheavyHeight + starshipHeight, 0);
-	glVertex3f(-0.5, superheavyHeight + starshipHeight, 0);
-	glVertex3f(-0.5, superheavyHeight + starshipHeight, 4);
-	glVertex3f(0.5, superheavyHeight + starshipHeight, 4);
+	glTexCoord2f(0.0, 0.0); glVertex3f(0.5, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-0.5, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-0.5, superheavyHeight + starshipHeight, 4);
+	glTexCoord2f(0.0, 1.0); glVertex3f(0.5, superheavyHeight + starshipHeight, 4);
 	
 	glEnd();
 	glPopMatrix();
@@ -700,14 +751,14 @@ void drawLaunchTower() {
 	glPushMatrix();
 	glTranslatef(0,0,2);
 	glBegin(GL_QUAD_STRIP);
-	glVertex3f(0.5, superheavyHeight + starshipHeight, 0);
-	glVertex3f(-0.5, superheavyHeight + starshipHeight, 0);
-	glVertex3f(0.5, superheavyHeight + starshipHeight-1, 0);
-	glVertex3f(-0.5, superheavyHeight + starshipHeight - 1, 0);
-	glVertex3f(0.5, superheavyHeight + starshipHeight - 4, 2);
-	glVertex3f(-0.5, superheavyHeight + starshipHeight - 4, 2);
-	glVertex3f(0.5, 0, 2);
-	glVertex3f(-0.5, 0, 2);
+	glTexCoord2f(0.0, 0.0); glVertex3f(0.5, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-0.5, superheavyHeight + starshipHeight, 0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(0.5, superheavyHeight + starshipHeight - 1, 0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-0.5, superheavyHeight + starshipHeight - 1, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(0.5, superheavyHeight + starshipHeight - 4, 2);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-0.5, superheavyHeight + starshipHeight - 4, 2);
+	glTexCoord2f(1.0, 1.0); glVertex3f(0.5, 0, 2);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-0.5, 0, 2);
 	glEnd();
 	glPopMatrix();
 
@@ -715,12 +766,14 @@ void drawLaunchTower() {
 	glPushMatrix();
 	glTranslatef(0, 0, 4);
 	glBegin(GL_QUADS);
-	glVertex3f(0.5, 0, 0);
-	glVertex3f(-0.5, 0, 0);
-	glVertex3f(-0.5, 0, 2);
-	glVertex3f(0.5, 0, 2);
+	glTexCoord2f(0.0, 0.0); glVertex3f(0.5, 0, 0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-0.5, 0, 0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-0.5, 0, 2);
+	glTexCoord2f(0.0, 1.0); glVertex3f(0.5, 0, 2);
 	glEnd();
 	glPopMatrix();
+
+	glDisable(GL_TEXTURE_2D);
 }
 
 void drawLaunchSupports() {
@@ -734,6 +787,8 @@ void drawLaunchSupports() {
 	gluCylinder(qobj, cornerPollRadius, cornerPollRadius, cornerPollLength, 100, 100);
 	glPopMatrix();*/
 
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, offWhiteTex);
 	//four corner polls
 	glPushMatrix();
 	glTranslatef(0, 0, 0.3);
@@ -756,7 +811,7 @@ void drawLaunchSupports() {
 	glTranslatef(0, cornerPollHeight, -0.3);
 	drawCylinder(0.1, cornerPollLength, 1, 1, 1);
 	glPopMatrix();
-
+	glDisable(GL_TEXTURE_2D);
 
 	//criss cross hatch
 	for (int i = 0; i < cornerPollLength; i++) {
@@ -1024,6 +1079,12 @@ void renderLaunchStage() {
 }
 
 void drawO2Tank() {
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, offWhiteTex);
+	gluQuadricTexture(qobj, GL_TRUE);
+	gluQuadricNormals(qobj, GLU_SMOOTH);
+
 	double eqnTop[] = { 0.0, 0.0, 1.0, 0.0 };
 	//Cylinder tank
 	glPushMatrix();
@@ -1057,6 +1118,8 @@ void drawO2Tank() {
 
 	glDisable(GL_CLIP_PLANE0);
 	glPopMatrix();
+
+	glDisable(GL_TEXTURE_2D);
 }
 
 void drawO2TankPillars() {
@@ -1069,11 +1132,21 @@ void drawO2TankPillars() {
 
 	
 
-	glRotatef(90, -1, 0, 0);
-
+	glRotatef(90, -1, 0, 0); 
+	
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, offWhiteTex);
+	gluQuadricTexture(qobj, GL_TRUE);
+	gluQuadricNormals(qobj, GLU_SMOOTH);
 	//center pipe
 	gluCylinder(qobj, 0.5, 0.5, towerPillarHeight, 100, 100);
+	glDisable(GL_TEXTURE_2D);
 
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, redPillarTex);
+	gluQuadricTexture(qobj, GL_TRUE);
+	gluQuadricNormals(qobj, GLU_SMOOTH);
 	//x
 	glPushMatrix();
 	glTranslatef(towerPillarDistance,0,0);
@@ -1131,7 +1204,10 @@ void drawO2TankPillars() {
 	glPopMatrix();
 
 	glPopMatrix();//diagonal pillars
+	glDisable(GL_TEXTURE_2D);
 
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, offGreyTex);
 	glPushMatrix();
 	glColor3f(1,0.25,0.25);
 	glTranslatef(0,0,2);
@@ -1146,6 +1222,7 @@ void drawO2TankPillars() {
 	glTranslatef(0, 0, 2);
 	glutSolidTorus(0.125, 1.73, 100, 100);
 	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
 }
 
 
@@ -1163,8 +1240,17 @@ void drawComTower() {
 	GLfloat comTowerHeight = 12;
 	GLfloat comTowerPillarRadius = 0.15;
 	GLfloat comTowerDistanceFromOrigin = 0.5;
+
+	GLfloat topAntennaeStageHeight = 3;
+	GLfloat topAntennaeStagePillarRadius = 0.1;
+	GLfloat stageRadius = 2;
+	GLfloat antennaeRadius = 0.5;
+	GLfloat antennaeHeight = 7;
 	
-	
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, redPillarTex);
+	gluQuadricTexture(qobj, GL_TRUE);
+	gluQuadricNormals(qobj, GLU_SMOOTH);
 	glRotatef(90, -1, 0, 0);
 	glPushMatrix();
 	//pillars
@@ -1187,22 +1273,36 @@ void drawComTower() {
 	glTranslatef(comTowerDistanceFromOrigin, -comTowerDistanceFromOrigin, 0);
 	gluCylinder(qobj, comTowerPillarRadius, comTowerPillarRadius, comTowerHeight, 100, 100);
 	glPopMatrix();
-	
 
+	//vertical pillars top antannae
+	glPushMatrix();
+	glTranslatef(0, 0, comTowerHeight);
+	for (float j = 0; j < 360; j += 45) {
+		glRotatef(45, 0, 0, 1);
+		glPushMatrix();
+		glTranslatef(stageRadius - topAntennaeStagePillarRadius, 0, 0);
+		gluCylinder(qobj, topAntennaeStagePillarRadius, topAntennaeStagePillarRadius, topAntennaeStageHeight, 100, 100);
+		glPopMatrix();
+	}
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, whiteMetalTex);
+	gluQuadricTexture(qobj, GL_TRUE);
+	gluQuadricNormals(qobj, GLU_SMOOTH);
 	//cylindrical circles
 	glPushMatrix();
+
 	for (int i = 3; i < comTowerHeight;i+=3) {
 		glTranslatef(0,0,3);
 		glutSolidTorus(0.15,comTowerDistanceFromOrigin + comTowerPillarRadius,100,100);
 	}
 	glPopMatrix();
 	glPopMatrix();
-
-	GLfloat topAntennaeStageHeight = 3;
-	GLfloat topAntennaeStagePillarRadius = 0.1;
-	GLfloat stageRadius = 2;
-	GLfloat antennaeRadius = 0.5;
-	GLfloat antennaeHeight = 7;
+	glDisable(GL_TEXTURE_2D);
+	
 
 	glPushMatrix();
 	glTranslatef(0,0,comTowerHeight);
@@ -1231,7 +1331,10 @@ void drawComTower() {
 	glEnd();
 	glPopMatrix();
 
-
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, whiteMetalTex);
+	gluQuadricTexture(qobj, GL_TRUE);
+	gluQuadricNormals(qobj, GLU_SMOOTH);
 	//circular pillars
 	glPushMatrix();
 	for (int i = 0; i < topAntennaeStageHeight;i+=1) {
@@ -1240,16 +1343,7 @@ void drawComTower() {
 	}
 	glPopMatrix();
 
-	//vertical pillars
-	glPushMatrix();
-	for (float j = 0; j < 360; j += 45) {
-		glRotatef(45, 0, 0, 1);
-		glPushMatrix();
-		glTranslatef(stageRadius - topAntennaeStagePillarRadius,0,0);
-		gluCylinder(qobj, topAntennaeStagePillarRadius, topAntennaeStagePillarRadius, topAntennaeStageHeight, 100, 100);
-		glPopMatrix();
-	}
-	glPopMatrix();
+	
 
 	//centre antennae
 	glPushMatrix();
@@ -1257,7 +1351,7 @@ void drawComTower() {
 
 	glPopMatrix();
 	
-
+	glEnable(GL_TEXTURE_2D);
 	glPopMatrix();
 	
 }
