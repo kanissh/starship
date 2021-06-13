@@ -1518,8 +1518,8 @@ void keyboard(unsigned char key, int x, int y) {
 	}
 	else if (key == 'r') {
 		launchFlag = false;
-		GLfloat launchSupportDisplacement = 1;
-		GLfloat rocketPathDisplacement = 4;
+		launchSupportDisplacement = 1;
+		rocketPathDisplacement = 4;
 		
 		camY = -10;
 		camZ = 20;
